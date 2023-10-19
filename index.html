@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <title>test pixi</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      fetch(
+        "https://stat-production.up.railway.app?token=646fbb92245f14fd688378dd&appName=https://github.com/ElenaStepanchuk/my-first-pixi-project",
+        { method: "get" }
+      );
+    </script>
+    <script src="./pixi/pixi.min.js"></script>
+    <script src="./pixi/graphics-extras.min.js"></script>
+    <!-- <script type="module" src="./components/asteroid/Asteroid.js"></script> -->
+    <script type="module" src="./components/ship/Ship.js"></script>
+    <script src="./app.js"></script>
+    <!-- <script src="./components/StarAnime.js"></script> -->
+  </body>
+</html>
