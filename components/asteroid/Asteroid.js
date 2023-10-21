@@ -1,0 +1,35 @@
+import Canvas from "../canvas/Canvas.js";
+
+class Asteroid extends Canvas {
+  constructor(app) {
+    super(app);
+    this.asteroid = PIXI.Sprite.from("../../images/asteroid.png");
+    this.arrayAsteroids = [];
+    this.asteroiSize = 50;
+  }
+
+  createArrayAsteroids() {
+    for (let i = 0; i < 7; i++) {
+      this.arrayAsteroids.push(this.asteroid);
+      this.app.stage.addChild(this.arrayAsteroids[i]);
+      this.arrayAsteroids[i].width = this.asteroiSize;
+      this.arrayAsteroids[i].height = this.asteroiSize;
+      this.arrayAsteroids[i].interactive = true;
+    }
+    this.arrayAsteroids[0].x = 50;
+    this.arrayAsteroids[0].y = 130;
+    this.arrayAsteroids[1].x = 250;
+    this.arrayAsteroids[1].y = 80;
+    this.arrayAsteroids[2].x = 500;
+    this.arrayAsteroids[2].y = 180;
+    this.arrayAsteroids[3].x = 680;
+    this.arrayAsteroids[3].y = 280;
+    this.arrayAsteroids[4].x = 880;
+    this.arrayAsteroids[4].y = 100;
+    this.arrayAsteroids[5].x = 940;
+    this.arrayAsteroids[5].y = 70;
+    this.arrayAsteroids[6].x = 1140;
+    this.arrayAsteroids[6].y = 220;
+  }
+}
+export default Asteroid;
