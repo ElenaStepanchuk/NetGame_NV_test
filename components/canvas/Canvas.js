@@ -12,6 +12,7 @@ class Canvas {
   renderCanvas() {
     this.app.renderer.view.style.position = "absolute";
     document.body.appendChild(this.app.view);
+    // this.app.ticker.add(gameLoop);
   }
 }
 

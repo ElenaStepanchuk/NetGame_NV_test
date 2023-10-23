@@ -1,21 +1,47 @@
-import Canvas from "../canvas/Canvas.js";
-
-class Asteroid extends Canvas {
-  constructor(app) {
-    super(app);
-    this.asteroid = PIXI.Sprite.from("../../images/asteroid.png");
+class Asteroid {
+  constructor({ app, bullets }) {
+    this.app = app;
+    this.bullets = bullets;
+    this.deadedAsteroid = 0;
+    this.asteroid = null;
     this.arrayAsteroids = [];
     this.asteroiSize = 50;
+    this.widthCanvas = 1280;
+    this.heightCanvas = 720;
+    this.shipSpriteHeight = 140;
+    this.app.ticker.add((delta) => this.gameLoop(delta));
   }
 
-  createArrayAsteroids() {
+  // checkCollision() {
+  //   this.arrayAsteroids.forEach((asteroid) => {
+  //     for (let i = 0; i < this.bullets.length; i++) {
+  //       if (
+  //         this.bullets[i].x < asteroid.x + asteroid.width - 20 &&
+  //         this.bullets[i].x + asteroid.width - 15 > asteroid.x &&
+  //         this.bullets[i].y < asteroid.y + asteroid.height &&
+  //         this.bullets[i].y + asteroid.height > asteroid.y
+  //       ) {
+  //         console.log("прикосновение", this.bullets, asteroid.x);
+  //         this.app.stage.removeChild(this.bullets[i]);
+  //         this.bullets.splice(i, 1);
+  //         this.app.stage.removeChild(asteroid);
+  //         asteroid.y = -150;
+  //         this.deadedAsteroid = this.deadedAsteroid + 1;
+  //         // addDeadedAsteroid();
+  //       }
+  //     }
+  //   });
+  // }
+  addAsteroid() {
     for (let i = 0; i < 7; i++) {
+      this.asteroid = PIXI.Sprite.from("../../images/asteroid.png");
+      this.asteroid.width = this.asteroiSize;
+      this.asteroid.height = this.asteroiSize;
       this.arrayAsteroids.push(this.asteroid);
       this.app.stage.addChild(this.arrayAsteroids[i]);
-      this.arrayAsteroids[i].width = this.asteroiSize;
-      this.arrayAsteroids[i].height = this.asteroiSize;
-      this.arrayAsteroids[i].interactive = true;
+      this.asteroid.interactive = true;
     }
+
     this.arrayAsteroids[0].x = 50;
     this.arrayAsteroids[0].y = 130;
     this.arrayAsteroids[1].x = 250;
@@ -30,6 +56,63 @@ class Asteroid extends Canvas {
     this.arrayAsteroids[5].y = 70;
     this.arrayAsteroids[6].x = 1140;
     this.arrayAsteroids[6].y = 220;
+
+    // console.log(this.bullets);
+    // this.checkCollision();
+  }
+
+  // checkCollision() {
+  //   console.log(this.arrayAsteroids);
+  //   this.arrayAsteroids.forEach((asteroid) => {
+  //     for (let i = 0; i < this.bullets.length; i++) {
+  //       if (
+  //         this.bullets[i].x < asteroid.x + asteroid.width - 20 &&
+  //         this.bullets[i].x + asteroid.width - 15 > asteroid.x &&
+  //         this.bullets[i].y < asteroid.y + asteroid.height &&
+  //         this.bullets[i].y + asteroid.height > asteroid.y
+  //       ) {
+  //         console.log("прикосновение", this.bullets, asteroid.x);
+  //         this.app.stage.removeChild(this.bullets[i]);
+  //         this.bullets.splice(i, 1);
+  //         this.app.stage.removeChild(asteroid);
+  //         asteroid.y = -150;
+  //         this.deadedAsteroid = this.deadedAsteroid + 1;
+  //         // addDeadedAsteroid();
+  //       }
+  //     }
+  //   });
+  // }
+  moveAsteroid(delta) {
+    for (let i = 0; i < this.arrayAsteroids.length; i = i + 2) {
+      this.arrayAsteroids[i].y += 1;
+      this.arrayAsteroids[i].x += 1;
+
+      if (
+        this.arrayAsteroids[i].y >
+        this.heightCanvas - this.shipSpriteHeight - 100
+      ) {
+        return (this.arrayAsteroids[i].y = 50);
+      } else if (this.arrayAsteroids[i].x > this.widthCanvas - 50) {
+        return (this.arrayAsteroids[i].x = 50);
+      }
+    }
+    for (let i = 1; i < this.arrayAsteroids.length; i = i + 2) {
+      this.arrayAsteroids[i].y += 1;
+      this.arrayAsteroids[i].x -= 1;
+      if (
+        this.arrayAsteroids[i].y >
+        this.heightCanvas - this.shipSpriteHeight - 100
+      ) {
+        return (this.arrayAsteroids[i].y = 60);
+      }
+      if (this.arrayAsteroids[i].x < 0) {
+        return (this.arrayAsteroids[i].x = this.widthCanvas - 50);
+      }
+    }
+  }
+  gameLoop(delta) {
+    this.moveAsteroid(delta);
   }
 }
+
 export default Asteroid;

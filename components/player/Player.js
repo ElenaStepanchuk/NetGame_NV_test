@@ -1,8 +1,6 @@
-import Canvas from "../canvas/Canvas.js";
-
-class Player extends Canvas {
+class Player {
   constructor({ app, spritePath, width, height, y }) {
-    super(app);
+    this.app = app;
     this.sprite = PIXI.Sprite.from(spritePath);
     this.sprite.width = width;
     this.sprite.height = height;
