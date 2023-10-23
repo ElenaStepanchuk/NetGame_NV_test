@@ -1,52 +1,134 @@
-import Canvas from "./components/canvas/Canvas.js";
+// import Canvas from "./components/canvas/Canvas.js";
 import Player from "./components/player/Player.js";
+import Keyboard from "./components/keyboard/Keyboard.js";
 import Asteroid from "./components/asteroid/Asteroid.js";
+import Timer from "./components/timer/Timer.js";
+import Shoot from "./components/shoot/Shoot.js";
+import Bullets from "./components/bullets/Bullets.js";
 
-const addCanvas = new Canvas();
-addCanvas.renderCanvas();
+// const audioFonMusic = new Audio("./audio/fonMusic.mp3");
+// const audioSpiceShip = new Audio("./audio/spiceShipShoot.mp3");
+// const audioBoss = new Audio("./audio/bossShoot.mp3");
 
-const ship = new Player({
-  spritePath: "./images/spaceShip.png",
-  width: 60,
-  height: 140,
-  y: 570,
-});
-ship.addPlayer();
+class Game {
+  constructor() {
+    // this.canvas = this.canvas;
+    this.app = new PIXI.Application({
+      width: 1280,
+      height: 720,
+      transparent: true,
+      antialias: true,
+    });
+    this.app.renderer.view.style.position = "absolute";
+    document.body.appendChild(this.app.view);
 
-const asteroid = new Asteroid();
-asteroid.createArrayAsteroids();
+    this.asteroidsArr = this.asteroidsArr;
+    // this.audioFon = audioFonMusic.play();
+    this.ship = this.ship;
 
-// //////////////////////////////////
-// const Application = PIXI.Application;
-// const widthCanvas = 1280;
-// const heightCanvas = 720;
+    this.bullets = this.bullets;
 
-// const app = new Application({
-//   width: widthCanvas,
-//   height: heightCanvas,
-//   transparent: true,
-//   antialias: true,
-// });
+    this.keyboard = this.keyboard;
+    this.timer = this.timer;
+    PIXI.Ticker.shared.add(this.gameLoop);
+  }
+  startGame() {
+    // add scene
+    // this.canvas = new Canvas();
+    // this.canvas.renderCanvas();
 
-// app.renderer.view.style.position = "absolute";
-// document.body.appendChild(app.view);
+    // add spice ship
+    this.ship = new Player({
+      app: this.app,
+      spritePath: "./images/spaceShip.png",
+      width: 60,
+      height: 140,
+      y: 570,
+    });
+    this.ship.addPlayer();
 
-// function addingSpiceShip() {
-//   const shipSprite = PIXI.Sprite.from("./images/spaceShip.png");
-//   app.stage.addChild(shipSprite);
-//   shipSprite.width = 60;
-//   shipSprite.height = 140;
-//   shipSprite.x = app.screen.width / 2 - 15;
-//   shipSprite.y = 570;
-//   shipSprite.interactive = true;
-//   console.log(
-//     shipSprite,
-//     shipSprite.width,
-//     shipSprite.height,
-//     shipSprite.x,
-//     shipSprite.y,
-// app
-//   );
-// }
-// addingSpiceShip();
-// /////////////////////////////////////////////////
+    // add ship bullets
+    this.bulletsArr = new Bullets({ app: this.app, sprite: this.ship.sprite });
+
+    // add asteroids
+    this.asteroidsArr = new Asteroid({
+      app: this.app,
+      bullets: this.bulletsArr.bullets,
+    });
+    this.asteroidsArr.addAsteroid();
+
+    // add moving for ship
+    const keyboard = new Keyboard({
+      sprite: this.ship.sprite,
+      app: this.app,
+      bullets: this.bulletsArr.bullet,
+    });
+    document.addEventListener("keydown", keyboard.handleKeyDown.bind(keyboard));
+
+    // add timer
+    this.timer = new Timer({
+      app: this.app,
+      ship: this.ship.sprite,
+      ArrAsteroids: this.asteroidsArr.arrayAsteroids,
+    });
+    this.timer.addTimer();
+  }
+  gameLoop(delta) {
+    // const shootShip = new Shoot({ app: this.app, sprite: this.ship.sprite });
+    // shootShip.updateBullets(delta);
+  }
+  //
+  //
+  //
+  //
+  //
+  //
+  // const canvas = new Canvas();
+  // this.canvas.renderCanvas();
+
+  // add music for fon
+  // audioFonMusic.play();
+
+  // add asteroids
+  // const asteroidsArr = new Asteroid({ app: canvas.app });
+  // asteroidsArr.addAsteroid();
+
+  // add spice ship
+  // const ship = new Player({
+  //   app: canvas.app,
+  //   spritePath: "./images/spaceShip.png",
+  //   width: 60,
+  //   height: 140,
+  //   y: 570,
+  // });
+  // ship.addPlayer();
+
+  // add ship bullets
+  // const bullets = new Bullets({ app: canvas.app, sprite: ship.sprite });
+
+  // add moving for ship
+  // const keyboard = new Keyboard({
+  //   sprite: ship.sprite,
+  //   app: canvas.app,
+  //   bullets: bullets.bullet,
+  // });
+  // document.addEventListener("keydown", keyboard.handleKeyDown.bind(keyboard));
+
+  // add feature shooting
+  // const shoot = new Shoot({
+  //   app: canvas.app,
+  //   bullets: bullets.bullets,
+  //   sprite: ship.sprite,
+  // });
+  // shoot.shooting();
+
+  // add timer
+  // const timer = new Timer({
+  //   app: canvas.app,
+  //   ship: ship.sprite,
+  //   ArrAsteroids: asteroidsArr.arrayAsteroids,
+  // });
+  // timer.addTimer();
+}
+const game = new Game();
+game.startGame();
