@@ -1,7 +1,7 @@
 class Asteroid {
-  constructor({ app, bullets }) {
+  constructor({ app }) {
     this.app = app;
-    this.bullets = bullets;
+
     this.deadedAsteroid = 0;
     this.asteroid = null;
     this.arrayAsteroids = [];
@@ -12,26 +12,6 @@ class Asteroid {
     this.app.ticker.add((delta) => this.gameLoop(delta));
   }
 
-  // checkCollision() {
-  //   this.arrayAsteroids.forEach((asteroid) => {
-  //     for (let i = 0; i < this.bullets.length; i++) {
-  //       if (
-  //         this.bullets[i].x < asteroid.x + asteroid.width - 20 &&
-  //         this.bullets[i].x + asteroid.width - 15 > asteroid.x &&
-  //         this.bullets[i].y < asteroid.y + asteroid.height &&
-  //         this.bullets[i].y + asteroid.height > asteroid.y
-  //       ) {
-  //         console.log("прикосновение", this.bullets, asteroid.x);
-  //         this.app.stage.removeChild(this.bullets[i]);
-  //         this.bullets.splice(i, 1);
-  //         this.app.stage.removeChild(asteroid);
-  //         asteroid.y = -150;
-  //         this.deadedAsteroid = this.deadedAsteroid + 1;
-  //         // addDeadedAsteroid();
-  //       }
-  //     }
-  //   });
-  // }
   addAsteroid() {
     for (let i = 0; i < 7; i++) {
       this.asteroid = PIXI.Sprite.from("../../images/asteroid.png");
@@ -56,32 +36,8 @@ class Asteroid {
     this.arrayAsteroids[5].y = 70;
     this.arrayAsteroids[6].x = 1140;
     this.arrayAsteroids[6].y = 220;
-
-    // console.log(this.bullets);
-    // this.checkCollision();
   }
 
-  // checkCollision() {
-  //   console.log(this.arrayAsteroids);
-  //   this.arrayAsteroids.forEach((asteroid) => {
-  //     for (let i = 0; i < this.bullets.length; i++) {
-  //       if (
-  //         this.bullets[i].x < asteroid.x + asteroid.width - 20 &&
-  //         this.bullets[i].x + asteroid.width - 15 > asteroid.x &&
-  //         this.bullets[i].y < asteroid.y + asteroid.height &&
-  //         this.bullets[i].y + asteroid.height > asteroid.y
-  //       ) {
-  //         console.log("прикосновение", this.bullets, asteroid.x);
-  //         this.app.stage.removeChild(this.bullets[i]);
-  //         this.bullets.splice(i, 1);
-  //         this.app.stage.removeChild(asteroid);
-  //         asteroid.y = -150;
-  //         this.deadedAsteroid = this.deadedAsteroid + 1;
-  //         // addDeadedAsteroid();
-  //       }
-  //     }
-  //   });
-  // }
   moveAsteroid(delta) {
     for (let i = 0; i < this.arrayAsteroids.length; i = i + 2) {
       this.arrayAsteroids[i].y += 1;

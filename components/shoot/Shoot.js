@@ -1,14 +1,17 @@
 import Bullets from "../bullets/Bullets.js";
+import Asteroid from "../asteroid/Asteroid.js";
 
 class Shoot {
-  constructor({ app, sprite }) {
+  constructor({ app, sprite, arrAsteroids }) {
     this.app = app;
     this.sprite = sprite;
+    this.arrAsteroids = null;
     this.dead = false;
     this.deadedAsteroid = 0;
     this.shootedValueBullet = 0;
     this.createdBullet = null;
     this.bullets = [];
+    this.arrAsteroids = arrAsteroids;
     this.styleText = new PIXI.TextStyle({
       fontFamily: "Monserrat",
       FontSize: 32,
@@ -20,6 +23,10 @@ class Shoot {
       `Shooted bullets: ${this.shootedValueBullet} / 10`,
       this.styleText
     );
+    this.app.stage.addChild(this.shootedBullet);
+    this.shootedBullet.x = 15;
+    this.shootedBullet.y = 15;
+
     this.app.ticker.add((delta) => this.gameLoop(delta));
   }
   shooting() {
@@ -48,6 +55,12 @@ class Shoot {
     this.app.stage.addChild(this.shootedBullet);
     this.shootedBullet.x = 15;
     this.shootedBullet.y = 15;
+    console.log(this.arrAsteroids, this.sprite, this.app);
+  }
+
+  checkCollision() {
+    // this.arrAsteroids = new Asteroid({ app: this.app });
+    // console.log(this.arrAsteroids, this.sprite);
   }
 
   updateBullets(delta) {
@@ -63,6 +76,7 @@ class Shoot {
         this.bullets.splice(i, 1);
       }
     }
+    this.checkCollision();
   }
 
   gameLoop(delta) {
