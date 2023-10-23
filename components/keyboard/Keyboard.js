@@ -1,10 +1,11 @@
 import Shoot from "../shoot/Shoot.js";
+import Asteroid from "../asteroid/Asteroid.js";
 
 class Keyboard {
-  constructor({ app, sprite, bullets }) {
+  constructor({ app, sprite, arrAsteroids }) {
     this.app = app;
     this.sprite = sprite;
-    this.bullets = bullets;
+    this.arrAsteroids = arrAsteroids;
     this.widthCanvas = 1280;
     this.audioSpiceShip = new Audio("../../audio/spiceShipShoot.mp3");
     this.shoot = null;
@@ -24,13 +25,15 @@ class Keyboard {
     }
     if (e.key === " ") {
       this.audioSpiceShip.play();
+
       this.shoot = new Shoot({
         app: this.app,
-        // bullets: this.bullets,
+        arrAsteroids: this.arrAsteroids,
         sprite: this.sprite,
       });
       this.shoot.shooting();
     }
+    console.log(this.arrAsteroids);
   }
 }
 export default Keyboard;

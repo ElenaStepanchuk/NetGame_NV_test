@@ -53,7 +53,7 @@ class Game {
     // add asteroids
     this.asteroidsArr = new Asteroid({
       app: this.app,
-      bullets: this.bulletsArr.bullets,
+      // bullets: this.bulletsArr.bullets,
     });
     this.asteroidsArr.addAsteroid();
 
@@ -61,7 +61,7 @@ class Game {
     const keyboard = new Keyboard({
       sprite: this.ship.sprite,
       app: this.app,
-      bullets: this.bulletsArr.bullet,
+      arrAsteroids: this.arrAsteroids,
     });
     document.addEventListener("keydown", keyboard.handleKeyDown.bind(keyboard));
 
