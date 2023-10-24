@@ -1,5 +1,5 @@
 import Bullets from "../bullets/Bullets.js";
-import Asteroid from "../asteroid/Asteroid.js";
+import Text from "../text/Text.js";
 
 class Shoot {
   constructor({ app, sprite, arrAsteroids }) {
@@ -12,6 +12,7 @@ class Shoot {
     this.createdBullet = null;
     this.bullets = [];
     this.arrAsteroids = arrAsteroids;
+
     this.styleText = new PIXI.TextStyle({
       fontFamily: "Monserrat",
       FontSize: 32,
@@ -19,13 +20,27 @@ class Shoot {
       stroke: "#ffffff",
       strokeThickness: 4,
     });
-    this.shootedBullet = new PIXI.Text(
+    this.textShootedBullet = new PIXI.Text(
       `Shooted bullets: ${this.shootedValueBullet} / 10`,
       this.styleText
     );
-    this.app.stage.addChild(this.shootedBullet);
-    this.shootedBullet.x = 15;
-    this.shootedBullet.y = 15;
+    this.ValueTextShootedBullet = new Text({
+      app: this.app,
+      text: this.textShootedBullet,
+      x: 15,
+      y: 15,
+    });
+
+    this.textDeadedAsteroid = new PIXI.Text(
+      `Dead asteroid: ${this.deadedAsteroid} / 7`,
+      this.styleText
+    );
+    this.ValueTextDeadAsteroid = new Text({
+      app: this.app,
+      text: this.textDeadedAsteroid,
+      x: 1050,
+      y: 15,
+    });
 
     this.app.ticker.add((delta) => this.gameLoop(delta));
   }
@@ -45,22 +60,67 @@ class Shoot {
     this.createdBullet = newBullet.createBullet();
     this.bullets.push(this.createdBullet);
 
-    this.shootedValueBullet = this.shootedValueBullet + 1;
-    this.app.stage.removeChild(this.shootedBullet);
-
-    this.shootedBullet = new PIXI.Text(
-      `Shooted bullet: ${this.shootedValueBullet} / 10`,
+    this.shootedValueBullet++;
+    this.textShootedBullet = new PIXI.Text(
+      `Shooted bullets: ${this.shootedValueBullet} / 10`,
       this.styleText
     );
-    this.app.stage.addChild(this.shootedBullet);
-    this.shootedBullet.x = 15;
-    this.shootedBullet.y = 15;
-    console.log(this.arrAsteroids, this.sprite, this.app);
+
+    if (!this.ValueTextShootedBullet) {
+      this.ValueTextShootedBullet.addText();
+    } else {
+      this.ValueTextShootedBullet.removeText();
+
+      this.ValueTextShootedBullet = new Text({
+        app: this.app,
+        text: this.textShootedBullet,
+        x: 15,
+        y: 15,
+      });
+
+      this.ValueTextShootedBullet.addText();
+
+      return;
+    }
   }
 
   checkCollision() {
-    // this.arrAsteroids = new Asteroid({ app: this.app });
-    // console.log(this.arrAsteroids, this.sprite);
+    this.arrAsteroids.forEach((asteroid) => {
+      for (let i = 0; i < this.bullets.length; i++) {
+        if (
+          this.bullets[i].x < asteroid.x + asteroid.width - 20 &&
+          this.bullets[i].x + asteroid.width - 15 > asteroid.x &&
+          this.bullets[i].y < asteroid.y + asteroid.height &&
+          this.bullets[i].y + asteroid.height > asteroid.y
+        ) {
+          this.app.stage.removeChild(this.bullets[i]);
+          this.bullets.splice(i, 1);
+          this.app.stage.removeChild(asteroid);
+          asteroid.y = -150;
+          this.deadedAsteroid = this.deadedAsteroid + 1;
+
+          this.textDeadedAsteroid = new PIXI.Text(
+            `Dead asteroid: ${this.deadedAsteroid} / 7`,
+            this.styleText
+          );
+
+          if (!this.ValueTextDeadAsteroid) {
+            this.ValueTextDeadAsteroid.addText();
+          } else {
+            this.ValueTextDeadAsteroid.removeText();
+
+            this.ValueTextDeadAsteroid = new Text({
+              app: this.app,
+              text: this.textDeadedAsteroid,
+              x: 1050,
+              y: 15,
+            });
+            this.ValueTextDeadAsteroid.addText();
+            return;
+          }
+        }
+      }
+    });
   }
 
   updateBullets(delta) {

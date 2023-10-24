@@ -1,8 +1,17 @@
+import Text from "../text/Text.js";
+
 class Timer {
   constructor({ app, ship, ArrAsteroids }) {
     this.app = app;
     this.ship = ship;
     this.ArrAsteroids = ArrAsteroids;
+    this.widthCanvas = 1280;
+    this.heightCanvas = 720;
+    this.windowMaxValue = 20;
+    this.windowMinValue = 0;
+    this.windowCount = this.windowMinValue;
+    this.widthCanvas = 1280;
+    this.windowTimer = 0;
 
     this.styleText = new PIXI.TextStyle({
       fontFamily: "Monserrat",
@@ -16,14 +25,16 @@ class Timer {
       dropShadowBlur: 4,
       dropShadowColor: "#000000",
     });
-    this.endGame = new PIXI.Text(` `, this.styleText);
-    this.widthCanvas = 1280;
-    this.heightCanvas = 720;
-    this.windowMaxValue = 20;
-    this.windowMinValue = 0;
-    this.windowCount = this.windowMinValue;
-    this.widthCanvas = 1280;
-    this.windowTimer = 0;
+    this.endGame = new PIXI.Text("YOU   LOOSE", this.styleText);
+    this.endGame.x = this.widthCanvas / 2 - 60;
+    this.endGame.y = this.heightCanvas / 2;
+    this.windowMessage = new Text({
+      app: this.app,
+      text: this.endGame,
+      x: this.endGame.x,
+      y: this.endGame.y,
+    });
+
     this.styleText = new PIXI.TextStyle({
       fontFamily: "Monserrat",
       FontSize: 32,
@@ -35,15 +46,12 @@ class Timer {
   }
 
   addMessage() {
-    this.endGame.text = "YOU   LOOSE";
-    this.endGame.x = this.widthCanvas / 2 - 60;
-    this.endGame.y = this.heightCanvas / 2;
     this.app.stage.removeChild(this.ship);
     for (let i = 0; i < 7; i++) {
       this.app.stage.removeChild(this.ArrAsteroids[i]);
     }
 
-    this.app.stage.addChild(this.endGame);
+    this.windowMessage.addText();
   }
 
   onWindowTimerComplete() {

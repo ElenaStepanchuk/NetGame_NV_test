@@ -16,7 +16,6 @@ class Bullets {
     this.bullet.speed = this.bulletSpeed;
     this.app.stage.addChild(this.bullet);
     this.bullets.push(this.bullet);
-    // console.log(this.bullet);
     return this.bullet;
   }
 }
