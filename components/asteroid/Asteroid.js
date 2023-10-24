@@ -2,7 +2,7 @@ class Asteroid {
   constructor({ app }) {
     this.app = app;
 
-    this.deadedAsteroid = 0;
+    // this.deadedAsteroid = 0;
     this.asteroid = null;
     this.arrayAsteroids = [];
     this.asteroiSize = 50;
