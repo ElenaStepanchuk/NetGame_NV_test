@@ -4,12 +4,18 @@ import Asteroid from "./components/asteroid/Asteroid.js";
 import Timer from "./components/timer/Timer.js";
 // import Bullets from "./components/bullets/Bullets.js";
 import StarsAnime from "./components/starsAnime/StarsAnime.js";
-import Text from "./components/text/Text.js";
+// import Text from "./components/text/Text.js";
 // import Shoot from "./components/shoot/Shoot.js";
 // const audioBoss = new Audio("./audio/bossShoot.mp3");
 
+import StartButton from "./components/startButton/StartButton.js";
+
+import MoveAsteroids from "./components/moveAsteroids/MoveAsteroids.js";
+
 class Game {
   constructor() {
+    this.asteroids = null;
+    this.moveAsteroids = null;
     this.app = new PIXI.Application({
       width: 1280,
       height: 720,
@@ -30,55 +36,18 @@ class Game {
       height: 140,
       y: 570,
     });
-    // add ship bullets
-    // this.bulletsArr = new Bullets({ app: this.app, sprite: this.ship.sprite });
 
-    this.timer = this.timer = new Timer({
+    this.timer = new Timer({
       app: this.app,
       ship: this.ship.sprite,
       ArrAsteroids: this.asteroidsArr.arrayAsteroids,
     });
 
-    // this.shootedValueBullet = 0;
-    // this.deadedAsteroid = 0;
-
-    // this.styleText = new PIXI.TextStyle({
-    //   fontFamily: "Monserrat",
-    //   FontSize: 32,
-    //   fill: "#000000",
-    //   stroke: "#ffffff",
-    //   strokeThickness: 4,
-    // });
-    // this.textShootedBullet = new PIXI.Text(
-    //   `Shooted bullets: ${this.shootedValueBullet} / 10`,
-    //   this.styleText
-    // );
-    // this.ValueTextShootedBullet = new Text({
-    //   app: this.app,
-    //   text: this.textShootedBullet,
-    //   x: 15,
-    //   y: 15,
-    // });
-
-    // this.textDeadedAsteroid = new PIXI.Text(
-    //   `Dead asteroid: ${this.deadedAsteroid} / 7`,
-    //   this.styleText
-    // );
-    // this.ValueTextDeadAsteroid = new Text({
-    //   app: this.app,
-    //   text: this.textDeadedAsteroid,
-    //   x: 1050,
-    //   y: 15,
-    // });
-
     PIXI.Ticker.shared.add(this.gameLoop);
-  }
-  startGame() {
-    // ......................
-    // this.ValueTextShootedBullet.addText();
-    // this.ValueTextDeadAsteroid.addText();
-    // ......................
 
+    // this.init = null;
+  }
+  init() {
     // add stars animation
     new StarsAnime({ app: this.app });
 
@@ -86,7 +55,21 @@ class Game {
     this.ship.addPlayer();
 
     // add asteroids
-    this.asteroidsArr.addAsteroid();
+    this.asteroids = this.asteroidsArr.addAsteroid();
+
+    // add moving for ship
+    // const keyboard = new Keyboard({
+    //   sprite: this.ship.sprite,
+    //   app: this.app,
+    //   arrAsteroids: this.asteroidsArr.arrayAsteroids,
+    // });
+
+    // add timer
+    this.timer.addTimer();
+  }
+
+  update() {
+    // Обновление состояния игры
 
     // add moving for ship
     const keyboard = new Keyboard({
@@ -95,11 +78,68 @@ class Game {
       arrAsteroids: this.asteroidsArr.arrayAsteroids,
     });
 
-    // add timer
-    this.timer.addTimer();
+    // add moving for asteroids
+    // this.moveAsteroids = new MoveAsteroids({
+    //   arrayAsteroids: this.asteroids,
+    //   heightCanvas: 1280,
+    //   shipSpriteHeight: 50,
+    //   widthCanvas: 720,
+    // });
+    // this.asteroids.moveAsteroid();
+    // asteroids.moveAsteroids();
+    //
+    //
+    //
+    //
+    // const startButton = new StartButton({ app: this.app });
+    // startButton.addButton();
+    // // add stars animation
+    // new StarsAnime({ app: this.app });
+    // this.startGame();
   }
 
-  gameLoop(delta) {}
+  render() {
+    // Отрисовка элементов на странице
+  }
+
+  handleEvent(event) {
+    // Обработка событий
+  }
+
+  // startButton() {
+  //   const startButton = new StartButton({ app: this.app });
+  //   startButton.addButton();
+
+  //   // add stars animation
+  //   new StarsAnime({ app: this.app });
+  //   this.startGame();
+  // }
+
+  gameLoop(delta) {
+    // this.moveAsteroids(delta);
+  }
 }
+
+export default Game;
+
 const game = new Game();
-game.startGame();
+game.init();
+game.update();
+
+// class Level1 {
+//   constructor({ button, startGame }) {
+//     this.button = button;
+//     this.startGame = startGame;
+//   }
+// }
+
+// const game = new Game();
+// function Start() {
+//   game.startGame();
+// }
+
+// function Play() {
+//   game.startButton();
+// game.startGame();
+// }
+// Play();

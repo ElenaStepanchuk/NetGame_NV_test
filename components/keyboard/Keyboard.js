@@ -8,11 +8,13 @@ class Keyboard {
     this.widthCanvas = 1280;
     this.audioSpiceShip = new Audio("../../audio/spiceShipShoot.mp3");
     this.audioFonMusic = new Audio("../../audio/fonMusic.mp3");
+
     this.shoot = new Shoot({
       app: this.app,
       arrAsteroids: this.arrAsteroids,
       sprite: this.sprite,
     });
+    this.bullet = this.shoot.shootedValueBullet;
 
     window.addEventListener("keydown", this.handleKeyDown.bind(this));
   }
@@ -30,10 +32,15 @@ class Keyboard {
       // this.audioFonMusic.play();
     }
     if (e.key === " ") {
-      this.audioSpiceShip.play();
-      // this.audioFonMusic.play();
-
+      // console.log(this.shoot.shootedValueBullet);
+      console.log(this.bullet);
+      if (this.shoot.shootedValueBullet < 10) {
+        this.audioSpiceShip.play();
+        // this.audioFonMusic.play();
+        // this.bullet = this.shoot.shootedValueBullet;
+      }
       this.shoot.shooting();
+      this.bullet = this.shoot.shootedValueBullet;
     }
   }
 }

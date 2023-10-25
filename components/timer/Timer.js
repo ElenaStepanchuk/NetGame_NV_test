@@ -1,4 +1,6 @@
-import Text from "../text/Text.js";
+// import Text from "../text/Text.js";
+import EndGame from "../endGame/EndGame.js";
+// import Shoot from "../shoot/Shoot.js";
 
 class Timer {
   constructor({ app, ship, ArrAsteroids }) {
@@ -12,37 +14,21 @@ class Timer {
     this.windowCount = this.windowMinValue;
     this.widthCanvas = 1280;
     this.windowTimer = 0;
+    // this.bullets = 0;
 
-    this.styleText = new PIXI.TextStyle({
-      fontFamily: "Monserrat",
-      FontSize: 48,
-      fill: "deepskyblue",
-      stroke: "#ffffff",
-      strokeThickness: 4,
-      dropShadow: true,
-      dropShadowDistance: 10,
-      dropShadowAngle: Math.PI / 2,
-      dropShadowBlur: 4,
-      dropShadowColor: "#000000",
-    });
-    this.endGame = new PIXI.Text("YOU   LOOSE", this.styleText);
-    this.endGame.x = this.widthCanvas / 2 - 60;
-    this.endGame.y = this.heightCanvas / 2;
-    this.windowMessage = new Text({
-      app: this.app,
-      text: this.endGame,
-      x: this.endGame.x,
-      y: this.endGame.y,
-    });
-
-    this.styleText = new PIXI.TextStyle({
+    this.styleTextTimer = new PIXI.TextStyle({
       fontFamily: "Monserrat",
       FontSize: 32,
       fill: "#000000",
       stroke: "#ffffff",
       strokeThickness: 4,
     });
-    this.timerText;
+    this.timerText = null;
+  }
+
+  stopTimer() {
+    console.log("stop");
+    clearInterval(this.windowTimer);
   }
 
   addMessage() {
@@ -51,17 +37,37 @@ class Timer {
       this.app.stage.removeChild(this.ArrAsteroids[i]);
     }
 
-    this.windowMessage.addText();
+    const windowEndGame = new EndGame({
+      app: this.app,
+      sprite: this.ship,
+      arrAsteroids: this.arrAsteroids,
+    });
+    windowEndGame.endGame();
+  }
+
+  stopTimer() {
+    console.log("stop");
+    clearInterval(this.windowTimer);
   }
 
   onWindowTimerComplete() {
+    // const shoot = new Shoot({
+    //   app: this.app,
+    //   arrAsteroids: this.ArrAsteroids,
+    //   sprite: this.ship,
+    // });
+    // this.bullets = shoot;
+    // console.log(this.bullets);
+    if (this.bullets === 2) {
+      this.stopTimer();
+    }
     if (this.windowCount === this.windowMaxValue) {
-      clearInterval(this.windowTimer);
+      this.stopTimer();
       this.addMessage();
       return;
     } else {
       this.windowCount++;
-      this.timerText.text = `Timer: ${
+      this.timerText.text = `Timer : ${
         this.windowMaxValue - this.windowCount
       } / ${this.windowMaxValue}`;
       this.app.stage.addChild(this.timerText);
@@ -70,10 +76,10 @@ class Timer {
 
   addTimer() {
     this.timerText = new PIXI.Text(
-      `Timer: ${this.windowMaxValue - this.windowCount} / ${
+      `Timer : ${this.windowMaxValue - this.windowCount} / ${
         this.windowMaxValue
       }`,
-      this.styleText
+      this.styleTextTimer
     );
     this.timerText.x = this.widthCanvas / 2 - 65;
     this.timerText.y = 15;
@@ -81,6 +87,10 @@ class Timer {
     this.app.stage.addChild(this.timerText);
 
     this.windowTimer = setInterval(() => this.onWindowTimerComplete(), 1000);
+  }
+
+  removeTimer() {
+    this.app.stage.removeChild(this.timerText);
   }
 }
 
