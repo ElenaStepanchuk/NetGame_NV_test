@@ -1,10 +1,10 @@
 import EndGame from "../endGame/EndGame.js";
 
 class Timer {
-  constructor({ app, ship, ArrAsteroids }) {
+  constructor({ app, ship, target }) {
     this.app = app;
     this.ship = ship;
-    this.ArrAsteroids = ArrAsteroids;
+    this.target = target;
     this.widthCanvas = 1280;
     this.heightCanvas = 720;
     this.windowMaxValue = 60;
@@ -30,14 +30,12 @@ class Timer {
 
   addMessage() {
     this.app.stage.removeChild(this.ship);
-    for (let i = 0; i < 7; i++) {
-      this.app.stage.removeChild(this.ArrAsteroids[i]);
-    }
+    this.app.stage.removeChild(this.target);
 
     const windowEndGame = new EndGame({
       app: this.app,
       sprite: this.ship,
-      arrAsteroids: this.arrAsteroids,
+      target: this.target,
     });
     windowEndGame.endGame();
     this.stopTimer();
@@ -55,6 +53,8 @@ class Timer {
       } / ${this.windowMaxValue}`;
       this.app.stage.addChild(this.timerText);
     }
+    // console.log(this.windowTimer);
+    // console.log(this.windowCount);
   }
 
   addTimer() {

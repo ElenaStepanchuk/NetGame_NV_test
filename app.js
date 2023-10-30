@@ -2,20 +2,15 @@ import Player from "./components/player/Player.js";
 import Keyboard from "./components/keyboard/Keyboard.js";
 import Asteroid from "./components/asteroid/Asteroid.js";
 import Timer from "./components/timer/Timer.js";
-// import Bullets from "./components/bullets/Bullets.js";
 import StarsAnime from "./components/starsAnime/StarsAnime.js";
-// import Text from "./components/text/Text.js";
-// import Shoot from "./components/shoot/Shoot.js";
-// const audioBoss = new Audio("./audio/bossShoot.mp3");
 
 import StartButton from "./components/startButton/StartButton.js";
 
-import MoveAsteroids from "./components/moveAsteroids/MoveAsteroids.js";
+import GameBoss from "./components/gameBoss/GameBoss.js";
 
 class Game {
   constructor() {
     this.asteroids = null;
-    this.moveAsteroids = null;
     this.app = new PIXI.Application({
       width: 1280,
       height: 720,
@@ -25,121 +20,100 @@ class Game {
     this.app.renderer.view.style.position = "absolute";
     document.body.appendChild(this.app.view);
 
-    this.asteroidsArr = new Asteroid({
-      app: this.app,
-    });
+    this.asteroidsArr = null;
+    this.ship = null;
+    this.timer = null;
+    this.keyboard = null;
+    this.shotsFired = 0;
 
-    this.ship = new Player({
-      app: this.app,
-      spritePath: "./images/spaceShip.png",
-      width: 60,
-      height: 140,
-      y: 570,
-    });
+    PIXI.Ticker.shared.add(this.gameLoop.bind(this));
 
-    this.timer = new Timer({
-      app: this.app,
-      ship: this.ship.sprite,
-      ArrAsteroids: this.asteroidsArr.arrayAsteroids,
-    });
+    window.addEventListener("keydown", this.handleEvent.bind(this));
+  }
 
-    PIXI.Ticker.shared.add(this.gameLoop);
+  startButton() {
+    const startButton = new StartButton({ app: this.app });
+    startButton.addButton();
 
-    // this.init = null;
+    new StarsAnime({ app: this.app });
   }
   init() {
     // add stars animation
     new StarsAnime({ app: this.app });
 
     // add spice ship
-    this.ship.addPlayer();
+    this.ship = new Player({
+      app: this.app,
+      spritePath: "./images/spaceShip.png",
+      width: 60,
+      height: 140,
+      y: 570,
+      x: this.app.screen.width / 2 - 15,
+    });
 
     // add asteroids
-    this.asteroids = this.asteroidsArr.addAsteroid();
-
-    // add moving for ship
-    // const keyboard = new Keyboard({
-    //   sprite: this.ship.sprite,
-    //   app: this.app,
-    //   arrAsteroids: this.asteroidsArr.arrayAsteroids,
-    // });
+    this.asteroidsArr = new Asteroid({
+      app: this.app,
+    });
 
     // add timer
-    this.timer.addTimer();
-  }
-
-  update() {
-    // Обновление состояния игры
+    this.timer = new Timer({
+      app: this.app,
+      ship: this.ship.sprite,
+      ArrAsteroids: this.asteroidsArr.arrayAsteroids,
+    });
 
     // add moving for ship
-    const keyboard = new Keyboard({
+    this.keyboard = new Keyboard({
       sprite: this.ship.sprite,
       app: this.app,
       arrAsteroids: this.asteroidsArr.arrayAsteroids,
     });
+  }
 
-    // add moving for asteroids
-    // this.moveAsteroids = new MoveAsteroids({
-    //   arrayAsteroids: this.asteroids,
-    //   heightCanvas: 1280,
-    //   shipSpriteHeight: 50,
-    //   widthCanvas: 720,
-    // });
-    // this.asteroids.moveAsteroid();
-    // asteroids.moveAsteroids();
-    //
-    //
-    //
-    //
-    // const startButton = new StartButton({ app: this.app });
-    // startButton.addButton();
-    // // add stars animation
-    // new StarsAnime({ app: this.app });
-    // this.startGame();
+  update() {
+    // Обновление состояния игры
   }
 
   render() {
     // Отрисовка элементов на странице
+
+    this.ship.addPlayer();
+    this.asteroids = this.asteroidsArr.addAsteroid();
+    this.timer.addTimer();
+  }
+  bossGame() {
+    const gameWithBoss = new GameBoss({ app: this.app });
+    gameWithBoss.init();
+    gameWithBoss.render();
   }
 
-  handleEvent(event) {
+  handleEvent(e) {
     // Обработка событий
+    // console.log(e.keyCode);
+    if (e.keyCode === 83) {
+      // this.init();
+      // this.update();
+      // this.render();
+      this.bossGame();
+      // this.bossGame().removeButtonListener();
+      // console.log(startButton.removeButtonListener());
+    }
+    if (e.keyCode === 32) {
+      // this.shotsFired++;
+      // this.keyboard.valueDeadAsteroids();
+      // let killsAsteroids = this.keyboard.killedAsteroid;
+      // if (this.shotsFired === 10 || killsAsteroids === 6) {
+      //   this.timer.stopTimer();
+      //   return;
+      // }
+    }
   }
 
-  // startButton() {
-  //   const startButton = new StartButton({ app: this.app });
-  //   startButton.addButton();
-
-  //   // add stars animation
-  //   new StarsAnime({ app: this.app });
-  //   this.startGame();
-  // }
-
-  gameLoop(delta) {
-    // this.moveAsteroids(delta);
-  }
+  gameLoop(delta) {}
 }
 
 export default Game;
 
 const game = new Game();
-game.init();
-game.update();
-
-// class Level1 {
-//   constructor({ button, startGame }) {
-//     this.button = button;
-//     this.startGame = startGame;
-//   }
-// }
-
-// const game = new Game();
-// function Start() {
-//   game.startGame();
-// }
-
-// function Play() {
-//   game.startButton();
-// game.startGame();
-// }
-// Play();
+game.startButton();

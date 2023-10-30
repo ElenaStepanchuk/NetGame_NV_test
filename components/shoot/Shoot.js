@@ -1,7 +1,6 @@
 import Bullets from "../bullets/Bullets.js";
 import Text from "../text/Text.js";
 import EndGame from "../endGame/EndGame.js";
-import Timer from "../timer/Timer.js";
 
 class Shoot {
   constructor({ app, sprite, arrAsteroids }) {
@@ -44,26 +43,10 @@ class Shoot {
       y: 15,
     });
 
-    this.timer = new Timer({
-      app: this.app,
-      ship: this.sprite,
-      ArrAsteroids: this.arrAsteroids,
-    });
-
+    this.ValueTextShootedBullet.addText();
+    this.ValueTextDeadAsteroid.addText();
     this.app.ticker.add((delta) => this.gameLoop(delta));
   }
-  // addTimerText() {
-  //   if (!this.timer) {
-  //     this.timer.addTimer();
-  //   } else {
-  //     this.timer.removeTimer();
-  //     this.timer.addTimer();
-  //     return;
-  //   }
-  //   if (this.shootedValueBullet === 10) {
-  //     this.timer.stopTimer();
-  //   }
-  // }
 
   shooting() {
     if (this.shootedValueBullet === 10 && this.deadedAsteroid < 7) {
@@ -93,9 +76,8 @@ class Shoot {
     this.bullets.push(this.createdBullet);
 
     this.shootedValueBullet++;
-    if (this.shootedValueBullet === 10) {
-      this.timer.stopTimer();
-    }
+    // if (this.shootedValueBullet === 10) {
+    // }
     this.textShootedBullet = new PIXI.Text(
       `Shooted bullets : ${this.shootedValueBullet} / 10`,
       this.styleText
