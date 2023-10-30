@@ -7,14 +7,13 @@ class Keyboard {
     this.arrAsteroids = arrAsteroids;
     this.widthCanvas = 1280;
     this.audioSpiceShip = new Audio("../../audio/spiceShipShoot.mp3");
-    this.audioFonMusic = new Audio("../../audio/fonMusic.mp3");
+    this.killedAsteroid = 0;
 
     this.shoot = new Shoot({
       app: this.app,
       arrAsteroids: this.arrAsteroids,
       sprite: this.sprite,
     });
-    this.bullet = this.shoot.shootedValueBullet;
 
     window.addEventListener("keydown", this.handleKeyDown.bind(this));
   }
@@ -25,23 +24,21 @@ class Keyboard {
       this.sprite.x < this.widthCanvas - this.sprite.width
     ) {
       this.sprite.x += 15;
-      // this.audioFonMusic.play();
     }
     if (e.key === "ArrowLeft" && this.sprite.x > 0) {
       this.sprite.x -= 15;
-      // this.audioFonMusic.play();
     }
     if (e.key === " ") {
-      // console.log(this.shoot.shootedValueBullet);
-      console.log(this.bullet);
-      if (this.shoot.shootedValueBullet < 10) {
+      if (this.shoot.shootedValueBullet < 10 && this.shoot.deadedAsteroid < 7) {
         this.audioSpiceShip.play();
-        // this.audioFonMusic.play();
-        // this.bullet = this.shoot.shootedValueBullet;
       }
       this.shoot.shooting();
-      this.bullet = this.shoot.shootedValueBullet;
     }
+  }
+
+  valueDeadAsteroids() {
+    this.killedAsteroid = this.shoot.deadedAsteroid;
+    console.log(this.killedAsteroid);
   }
 }
 export default Keyboard;

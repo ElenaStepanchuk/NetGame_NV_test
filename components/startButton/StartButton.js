@@ -4,6 +4,7 @@ class StartButton {
   constructor({ app }) {
     this.app = app;
     this.button = new Graphics();
+    this.audioFonMusic = new Audio("../../audio/fonMusic.mp3");
     this.widthCanvas = 1280;
     this.heightCanvas = 720;
     this.button.interactive = true;
@@ -25,6 +26,20 @@ class StartButton {
     this.startGame.buttonMode = true;
     this.startGame.x = this.widthCanvas / 2 - 80;
     this.startGame.y = this.heightCanvas / 2 - 20;
+
+    this.styleText1 = new PIXI.TextStyle({
+      fontFamily: "Monserrat",
+      FontSize: 14,
+      fill: "yellow",
+    });
+    this.instructionStart = new PIXI.Text(
+      "To start the game, press the `s` key on your keyboard.",
+      this.styleText1
+    );
+    this.instructionStart.interactive = true;
+    this.instructionStart.buttonMode = true;
+    this.instructionStart.x = this.widthCanvas / 2 - 280;
+    this.instructionStart.y = this.heightCanvas / 2 + 80;
   }
 
   addButton() {
@@ -41,11 +56,18 @@ class StartButton {
       .endFill();
     this.app.stage.addChild(this.button);
     this.app.stage.addChild(this.startGame);
+    this.app.stage.addChild(this.instructionStart);
+  }
+  removeButtonListener() {
+    window.removeEventListener("keydown", this.clickButton.bind(this));
   }
   clickButton(e) {
-    if (e.key === " ") {
+    if (e.keyCode === 83) {
       this.app.stage.removeChild(this.button);
       this.app.stage.removeChild(this.startGame);
+      this.app.stage.removeChild(this.instructionStart);
+      this.audioFonMusic.play();
+      // this.removeButtonListener();
     }
   }
 }

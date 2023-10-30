@@ -1,5 +1,4 @@
 import Text from "../text/Text.js";
-// import Timer from "../timer/Timer.js";
 
 class EndGame {
   constructor({ app, sprite, arrAsteroids }) {
@@ -21,17 +20,8 @@ class EndGame {
     this.widthCanvas = 1280;
     this.heightCanvas = 720;
     this.windowMessage = null;
-    // this.timer = null;
   }
   endGame() {
-    // const timer = new Timer({
-    //   app: this.app,
-    //   ship: this.sprite,
-    //   ArrAsteroids: this.arrAsteroids,
-    // });
-
-    // timer.stopTimer();
-
     this.endGame = new PIXI.Text("YOU   LOOSE", this.styleText);
     this.windowMessage = new Text({
       app: this.app,
