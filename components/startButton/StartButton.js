@@ -1,8 +1,9 @@
 const Graphics = PIXI.Graphics;
 
 class StartButton {
-  constructor({ app }) {
+  constructor({ app, game }) {
     this.app = app;
+    this.game = game;
     this.button = new Graphics();
     this.audioFonMusic = new Audio("../../audio/fonMusic.mp3");
     this.widthCanvas = 1280;
@@ -33,7 +34,7 @@ class StartButton {
       fill: "yellow",
     });
     this.instructionStart = new PIXI.Text(
-      "To start the game, press the `s` key on your keyboard.",
+      "To start the game, press the `s` key on your keyboard or click by right mouse button on button `START GAME`",
       this.styleText1
     );
     this.instructionStart.interactive = true;
@@ -42,11 +43,20 @@ class StartButton {
     this.instructionStart.y = this.heightCanvas / 2 + 80;
 
     this.clickButton = this.clickButton.bind(this);
+    this.onClick = this.onClick.bind(this);
     window.addEventListener("keydown", this.clickButton);
+    this.button.on("pointerdown", this.onClick);
+  }
+  onClick() {
+    this.game.startBossGame();
+    this.app.stage.removeChild(this.button);
+    this.app.stage.removeChild(this.startGame);
+    this.app.stage.removeChild(this.instructionStart);
+    this.audioFonMusic.play();
+    this.removeButtonListener();
   }
 
   addButton() {
-    // window.addEventListener("keydown", this.clickButton.bind(this));
     this.button
       .beginFill(0xffea00)
       .lineStyle(2, 0xffffff, 1)
@@ -62,7 +72,6 @@ class StartButton {
     this.app.stage.addChild(this.instructionStart);
   }
   removeButtonListener() {
-    // window.removeEventListener("keydown", this.clickButton.bind(this));
     window.removeEventListener("keydown", this.clickButton);
   }
   clickButton(e) {

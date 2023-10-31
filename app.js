@@ -25,6 +25,8 @@ class Game {
     this.timer = null;
     this.keyboard = null;
     this.shotsFired = 0;
+    this.startBossGame = this.startBossGame.bind(this);
+    this.startButton = this.startButton.bind(this);
 
     PIXI.Ticker.shared.add(this.gameLoop.bind(this));
 
@@ -33,7 +35,7 @@ class Game {
   }
 
   startButton() {
-    const startButton = new StartButton({ app: this.app });
+    const startButton = new StartButton({ app: this.app, game: this });
     startButton.addButton();
     new StarsAnime({ app: this.app });
   }
@@ -82,23 +84,21 @@ class Game {
     this.asteroids = this.asteroidsArr.addAsteroid();
     this.timer.addTimer();
   }
-  bossGame() {
-    const gameWithBoss = new GameBoss({ app: this.app });
-    gameWithBoss.init();
-    gameWithBoss.render();
+  startBossGame() {
+    if (!this.gameWithBoss) {
+      this.gameWithBoss = new GameBoss({ app: this.app });
+      this.gameWithBoss.init();
+      this.gameWithBoss.render();
+    }
   }
 
   handleEvent(e) {
     // Обработка событий
-    // console.log(e.keyCode);
     if (e.keyCode === 83) {
       // this.init();
       // this.update();
       // this.render();
-      this.bossGame();
-
-      // this.bossGame().removeButtonListener();
-      // console.log(startButton.removeButtonListener());
+      this.startBossGame();
     }
     if (e.keyCode === 32) {
       // this.shotsFired++;

@@ -23,7 +23,7 @@ class GameBoss {
 
     PIXI.Ticker.shared.add(this.gameLoop.bind(this));
 
-    window.addEventListener("keydown", this.handleEvent.bind(this));
+    // window.addEventListener("keydown", this.handleEvent.bind(this));
   }
 
   init() {
@@ -93,17 +93,17 @@ class GameBoss {
     }
   }
 
-  handleEvent(e) {
-    // Обработка событий
-    // console.log(e.keyCode);
-    if (e.keyCode === 83) {
-      this.init();
-      this.render();
-      this.removeButtonListener();
-    }
-    if (e.keyCode === 32) {
-    }
-  }
+  // handleEvent(e) {
+  //   // Обработка событий
+  //   // console.log(e.keyCode);
+  //   // if (e.keyCode === 83) {
+  //   //   this.init();
+  //   //   this.render();
+  //   //   this.removeButtonListener();
+  //   // }
+  //   if (e.keyCode === 32) {
+  //   }
+  // }
 
   gameLoop(delta) {
     this.update(delta);
