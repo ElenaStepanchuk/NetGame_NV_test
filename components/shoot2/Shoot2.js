@@ -60,24 +60,40 @@ class Shoot2 {
   }
 
   shooting() {
-    if (this.shootedValueBullet === 10 && this.deadedBoss !== 4) {
-      this.app.stage.removeChild(this.sprite);
-      this.app.stage.removeChild(this.target);
+    // if (
+    //   (this.deadedBoss < 4 && this.deadedSprite === 10) ||
+    //   this.deadedSprite === 1 ||
+    //   this.deadedSprite === 10
+    // ) {
+    //   const windowEndGame = new EndGame({
+    //     app: this.app,
+    //     sprite: this.ship,
+    //     target: this.target,
+    //   });
+    //   this.app.stage.removeChild(this.sprite);
+    //   this.app.stage.removeChild(this.target);
+    //   windowEndGame.endGame();
+    //   return;
+    // }
 
-      const windowEndGame = new EndGame({
-        app: this.app,
-        sprite: this.sprite,
-        arrAsteroids: this.target,
-      });
-      windowEndGame.endGame();
-      return;
-    }
-    if (
-      this.deadedBoss === 4 ||
-      (this.shootedValueBullet === 10 && this.deadedBoss != 4)
-    ) {
-      return;
-    }
+    // if (this.shootedValueBullet === 10 && this.deadedBoss !== 4) {
+    //   this.app.stage.removeChild(this.sprite);
+    //   this.app.stage.removeChild(this.target);
+
+    //   const windowEndGame = new EndGame({
+    //     app: this.app,
+    //     sprite: this.sprite,
+    //     arrAsteroids: this.target,
+    //   });
+    //   windowEndGame.endGame();
+    //   return;
+    // }
+    // if (
+    //   this.deadedBoss === 4 ||
+    //   (this.shootedValueBullet === 10 && this.deadedBoss != 4)
+    // ) {
+    //   return;
+    // }
 
     this.textShootedBullet = new PIXI.Text(
       `Shooted bullets : ${this.shootedValueBullet} / 10`,
@@ -109,8 +125,8 @@ class Shoot2 {
     this.createdBullet = newBullet.createBullet();
     this.bullets.push(this.createdBullet);
     this.shootedValueBullet++;
+    // }
   }
-
   // create boss bullets
   createBossBullets() {
     const newTargetBullet = new Bullets({
@@ -180,37 +196,36 @@ class Shoot2 {
     }
   }
 
-  // contact test bulletBoss with spiceSheep
+  // contact bulletBoss with sheep
   checkCollisionBulletBossWidthShip() {
     for (let i = 0; i < this.bossBullets.length; i++) {
       if (
         this.bossBullets[i].x < this.sprite.x + this.sprite.width - 20 &&
         this.bossBullets[i].x + this.sprite.width - 30 > this.sprite.x &&
         this.bossBullets[i].y < this.sprite.y + this.sprite.height &&
-        this.bossBullets[i].y + this.sprite.height > this.sprite.y
+        this.bossBullets[i].y + this.sprite.height - 130 > this.sprite.y
       ) {
         this.app.stage.removeChild(this.bossBullets[i]);
         this.bossBullets.splice(i, 1);
         this.deadedSprite = this.deadedSprite + 1;
       }
-      console.log(this.deadedSprite);
     }
   }
 
-  // contact ballet boss width bullet spiceShip
+  // contact ballet boss width bullet ship
   checkCollisionBulletBossWidthBulletShip() {
     for (let i = 0; i < this.bullets.length; i++) {
       this.bossBullets.forEach((bulletBoss) => {
         if (
           bulletBoss.x < this.bullets[i].x + 5 &&
           bulletBoss.x + this.bullets[i].x > 5 &&
-          bulletBoss.y == this.bullets[i].y - 120
+          bulletBoss.y === this.bullets[i].y - 130
         ) {
           this.app.stage.removeChild(this.bullets[i]);
           this.app.stage.removeChild(bulletBoss);
-          // this.a = a + 1;
+          this.deadedBoss = this.deadedBoss - 1;
+          this.deadedSprite = this.deadedSprite - 1;
         }
-        // console.log(a);
       });
     }
   }

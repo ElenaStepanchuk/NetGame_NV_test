@@ -28,13 +28,13 @@ class Game {
 
     PIXI.Ticker.shared.add(this.gameLoop.bind(this));
 
-    window.addEventListener("keydown", this.handleEvent.bind(this));
+    this.handleEvent = this.handleEvent.bind(this);
+    window.addEventListener("keydown", this.handleEvent);
   }
 
   startButton() {
     const startButton = new StartButton({ app: this.app });
     startButton.addButton();
-
     new StarsAnime({ app: this.app });
   }
   init() {
@@ -96,6 +96,7 @@ class Game {
       // this.update();
       // this.render();
       this.bossGame();
+
       // this.bossGame().removeButtonListener();
       // console.log(startButton.removeButtonListener());
     }

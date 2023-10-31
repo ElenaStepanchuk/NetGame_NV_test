@@ -40,10 +40,13 @@ class StartButton {
     this.instructionStart.buttonMode = true;
     this.instructionStart.x = this.widthCanvas / 2 - 280;
     this.instructionStart.y = this.heightCanvas / 2 + 80;
+
+    this.clickButton = this.clickButton.bind(this);
+    window.addEventListener("keydown", this.clickButton);
   }
 
   addButton() {
-    window.addEventListener("keydown", this.clickButton.bind(this));
+    // window.addEventListener("keydown", this.clickButton.bind(this));
     this.button
       .beginFill(0xffea00)
       .lineStyle(2, 0xffffff, 1)
@@ -59,7 +62,8 @@ class StartButton {
     this.app.stage.addChild(this.instructionStart);
   }
   removeButtonListener() {
-    window.removeEventListener("keydown", this.clickButton.bind(this));
+    // window.removeEventListener("keydown", this.clickButton.bind(this));
+    window.removeEventListener("keydown", this.clickButton);
   }
   clickButton(e) {
     if (e.keyCode === 83) {
@@ -67,7 +71,7 @@ class StartButton {
       this.app.stage.removeChild(this.startGame);
       this.app.stage.removeChild(this.instructionStart);
       this.audioFonMusic.play();
-      // this.removeButtonListener();
+      this.removeButtonListener();
     }
   }
 }
