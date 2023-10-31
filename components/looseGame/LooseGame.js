@@ -1,10 +1,8 @@
 import Text from "../text/Text.js";
 
-class EndGame {
-  constructor({ app, sprite, target }) {
+class LooseGame {
+  constructor({ app }) {
     this.app = app;
-    this.sprite = sprite;
-    this.target = target;
     this.styleText = new PIXI.TextStyle({
       fontFamily: "Monserrat",
       FontSize: 48,
@@ -33,4 +31,4 @@ class EndGame {
     this.windowMessage.addText();
   }
 }
-export default EndGame;
+export default LooseGame;

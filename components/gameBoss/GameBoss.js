@@ -69,12 +69,6 @@ class GameBoss {
     });
   }
 
-  update(delta) {
-    // Обновление состояния игры
-    this.keyboard2.shoot.updateBullets(delta);
-    this.keyboard2.shoot.updateBossBullets(delta);
-  }
-
   render() {
     // Отрисовка элементов на странице
 
@@ -83,12 +77,29 @@ class GameBoss {
     this.timer.addTimer();
   }
 
+  update(delta) {
+    // Обновление состояния игры
+    this.keyboard2.shoot.updateBullets(delta);
+    this.keyboard2.shoot.updateBossBullets(delta);
+
+    if (
+      (this.keyboard2.shoot.shootedValueBullet === 10 &&
+        this.keyboard2.shoot.deadedBoss < 4) ||
+      this.keyboard2.shoot.deadedSprite === 1 ||
+      (this.keyboard2.shoot.deadedBoss === 4 &&
+        this.keyboard2.shoot.shootedValueBullet <= 10)
+    ) {
+      this.timer.stopTimer();
+    }
+  }
+
   handleEvent(e) {
     // Обработка событий
     // console.log(e.keyCode);
     if (e.keyCode === 83) {
       this.init();
       this.render();
+      this.removeButtonListener();
     }
     if (e.keyCode === 32) {
     }

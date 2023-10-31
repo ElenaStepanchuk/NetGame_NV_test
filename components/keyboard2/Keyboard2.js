@@ -1,4 +1,6 @@
 import Shoot2 from "../shoot2/Shoot2.js";
+import LooseGame from "../looseGame/LooseGame.js";
+import WinGame from "../winGame/WinGame.js";
 
 class Keyboard2 {
   constructor({ app, sprite, target, windowCount }) {
@@ -8,7 +10,6 @@ class Keyboard2 {
     this.windowCount = windowCount;
     this.widthCanvas = 1280;
     this.audioSpiceShip = new Audio("../../audio/spiceShipShoot.mp3");
-    this.killedTarget = 0;
     this.targetShoot = null;
 
     this.shoot = new Shoot2({
@@ -18,11 +19,35 @@ class Keyboard2 {
       windowCount: this.windowCount,
     });
 
-    window.addEventListener("keydown", this.handleKeyDown.bind(this));
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    window.addEventListener("keydown", this.handleKeyDown);
 
     setInterval(() => {
-      this.shoot.createBossBullets();
-      this.shoot.shooting();
+      console.log(this.windowCount);
+      if (
+        (this.shoot.shootedValueBullet === 10 && this.shoot.deadedBoss < 4) ||
+        this.shoot.deadedSprite === 1
+      ) {
+        this.app.stage.removeChild(this.sprite);
+        this.app.stage.removeChild(this.target);
+        const gameOwer = new LooseGame({ app: this.app });
+        gameOwer.endGame();
+        window.removeEventListener("keydown", this.handleKeyDown);
+        return;
+      } else if (
+        this.shoot.deadedBoss === 4 &&
+        this.shoot.shootedValueBullet <= 10
+      ) {
+        this.app.stage.removeChild(this.sprite);
+        this.app.stage.removeChild(this.target);
+        const gameWin = new WinGame({ app: this.app });
+        gameWin.endGame();
+        window.removeEventListener("keydown", this.handleKeyDown);
+        return;
+      } else {
+        this.shoot.createBossBullets();
+        this.shoot.shooting();
+      }
     }, 2000);
   }
 
@@ -37,18 +62,33 @@ class Keyboard2 {
       this.sprite.x -= 15;
     }
     if (e.key === " ") {
-      if (this.shoot.shootedValueBullet < 10) {
+      if (
+        (this.shoot.shootedValueBullet === 10 && this.shoot.deadedBoss < 4) ||
+        this.shoot.deadedSprite === 1
+      ) {
+        this.app.stage.removeChild(this.sprite);
+        this.app.stage.removeChild(this.target);
+
+        const gameOwer = new LooseGame({ app: this.app });
+        gameOwer.endGame();
+        window.removeEventListener("keydown", this.handleKeyDown);
+        return;
+      } else if (
+        this.shoot.deadedBoss === 4 &&
+        this.shoot.shootedValueBullet <= 10
+      ) {
+        this.app.stage.removeChild(this.sprite);
+        this.app.stage.removeChild(this.target);
+        const gameWin = new WinGame({ app: this.app });
+        gameWin.endGame();
+        window.removeEventListener("keydown", this.handleKeyDown);
+        return;
+      } else {
         this.audioSpiceShip.play();
+        this.shoot.createShipBullets();
+        this.shoot.shooting();
       }
-
-      this.shoot.createShipBullets();
-      this.shoot.shooting();
     }
-  }
-
-  valueDeadTarget() {
-    this.killedTarget = this.shoot.deadedTarget;
-    console.log(this.killedTarget);
   }
 }
 export default Keyboard2;
