@@ -1,4 +1,4 @@
-import EndGame from "../endGame/EndGame.js";
+import LooseGame from "../looseGame/LooseGame.js";
 
 class Timer {
   constructor({ app, ship, target }) {
@@ -24,7 +24,6 @@ class Timer {
   }
 
   stopTimer() {
-    console.log("stop");
     clearInterval(this.windowTimer);
   }
 
@@ -32,12 +31,8 @@ class Timer {
     this.app.stage.removeChild(this.ship);
     this.app.stage.removeChild(this.target);
 
-    const windowEndGame = new EndGame({
-      app: this.app,
-      sprite: this.ship,
-      target: this.target,
-    });
-    windowEndGame.endGame();
+    const gameOwer = new LooseGame({ app: this.app });
+    gameOwer.endGame();
     this.stopTimer();
   }
 
@@ -53,8 +48,6 @@ class Timer {
       } / ${this.windowMaxValue}`;
       this.app.stage.addChild(this.timerText);
     }
-    // console.log(this.windowTimer);
-    // console.log(this.windowCount);
   }
 
   addTimer() {

@@ -1,19 +1,15 @@
 import Player from "../player/Player.js";
-import Keyboard2 from "../keyboard2/Keyboard2.js";
-import Timer2 from "../timer2/Timer2.js";
+import Keyboard from "../keyboard/Keyboard.js";
+import Asteroid from "../asteroid/Asteroid.js";
+import Timer from "../timer/Timer.js";
 import StarsAnime from "../starsAnime/StarsAnime.js";
-import BossSpeed from "../bossSpeed/BossSpeed.js";
 
-class GameBoss {
+class Level1 {
   constructor({ app }) {
     this.app = app;
-    this.bossBullet = 0;
-    this.bossSpeed = null;
-
-    this.bossTimerShoot = 0;
+    this.asteroids = null;
 
     this.ship = null;
-    this.boss = null;
     this.timer = null;
     this.keyboard2 = null;
 
@@ -38,33 +34,23 @@ class GameBoss {
       x: this.app.screen.width / 2 - 15,
     });
 
-    // boss ship
-    this.boss = new Player({
+    // asteroids
+    this.asteroidsArr = new Asteroid({
       app: this.app,
-      spritePath: "../../images/spaceShipBoss.png",
-      width: 120,
-      height: 180,
-      y: 80,
-      x: 0,
     });
 
     // timer
-    this.timer = new Timer2({
+    this.timer = new Timer({
       app: this.app,
       ship: this.ship.sprite,
-      target: this.boss.sprite,
+      ArrAsteroids: this.asteroidsArr.arrayAsteroids,
     });
 
     // moving for ship
-    this.keyboard2 = new Keyboard2({
+    this.keyboard = new Keyboard({
       sprite: this.ship.sprite,
       app: this.app,
-      target: this.boss.sprite,
-    });
-
-    // moving for boss
-    this.bossSpeed = new BossSpeed({
-      target: this.boss.sprite,
+      arrAsteroids: this.asteroidsArr.arrayAsteroids,
     });
   }
 
@@ -72,8 +58,8 @@ class GameBoss {
     // add spice ship
     this.ship.addPlayer();
 
-    // add boss ship
-    this.boss.addPlayer();
+    // add asteroids
+    this.asteroids = this.asteroidsArr.addAsteroid();
 
     // add timer
     this.timer.addTimer();
@@ -81,20 +67,18 @@ class GameBoss {
 
   update(delta) {
     // update ship bullets
-    this.keyboard2.shoot.updateBullets(delta);
+    this.keyboard.shoot.updateBullets(delta);
 
-    // update boss bullets
-    this.keyboard2.shoot.updateBossBullets(delta);
+    // update asteroids moving
+    this.asteroidsArr.moveAsteroid(delta);
 
     // update state when must stop timer
     if (
-      (this.keyboard2.shoot.shootedValueBullet === 10 &&
-        this.keyboard2.shoot.deadedBoss < 4) ||
-      this.keyboard2.shoot.deadedSprite === 1 ||
-      (this.keyboard2.shoot.deadedBoss === 4 &&
-        this.keyboard2.shoot.shootedValueBullet <= 10)
+      this.keyboard.shoot.shootedValueBullet === 10 ||
+      this.keyboard.shoot.deadedAsteroid === 7
     ) {
       this.timer.stopTimer();
+      this.timer.removeTimer();
     }
   }
   gameLoop(delta) {
@@ -102,4 +86,4 @@ class GameBoss {
   }
 }
 
-export default GameBoss;
+export default Level1;

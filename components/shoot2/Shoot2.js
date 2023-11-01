@@ -1,13 +1,10 @@
 import Bullets from "../bullets/Bullets.js";
 import Text from "../text/Text.js";
 const Graphics = PIXI.Graphics;
-import EndGame from "../endGame/EndGame.js";
 import ChangeBossHp from "../changeBossHp/ChangeBossHp.js";
 
 class Shoot2 {
   constructor({ app, sprite, target, windowCount }) {
-    // this.a = 0;
-
     this.app = app;
     this.sprite = sprite;
     this.target = target;
@@ -60,41 +57,6 @@ class Shoot2 {
   }
 
   shooting() {
-    // if (
-    //   (this.deadedBoss < 4 && this.deadedSprite === 10) ||
-    //   this.deadedSprite === 1 ||
-    //   this.deadedSprite === 10
-    // ) {
-    //   const windowEndGame = new EndGame({
-    //     app: this.app,
-    //     sprite: this.ship,
-    //     target: this.target,
-    //   });
-    //   this.app.stage.removeChild(this.sprite);
-    //   this.app.stage.removeChild(this.target);
-    //   windowEndGame.endGame();
-    //   return;
-    // }
-
-    // if (this.shootedValueBullet === 10 && this.deadedBoss !== 4) {
-    //   this.app.stage.removeChild(this.sprite);
-    //   this.app.stage.removeChild(this.target);
-
-    //   const windowEndGame = new EndGame({
-    //     app: this.app,
-    //     sprite: this.sprite,
-    //     arrAsteroids: this.target,
-    //   });
-    //   windowEndGame.endGame();
-    //   return;
-    // }
-    // if (
-    //   this.deadedBoss === 4 ||
-    //   (this.shootedValueBullet === 10 && this.deadedBoss != 4)
-    // ) {
-    //   return;
-    // }
-
     this.textShootedBullet = new PIXI.Text(
       `Shooted bullets : ${this.shootedValueBullet} / 10`,
       this.styleText
@@ -125,8 +87,8 @@ class Shoot2 {
     this.createdBullet = newBullet.createBullet();
     this.bullets.push(this.createdBullet);
     this.shootedValueBullet++;
-    // }
   }
+
   // create boss bullets
   createBossBullets() {
     const newTargetBullet = new Bullets({
@@ -138,7 +100,7 @@ class Shoot2 {
     this.audioBoss.play();
   }
 
-  // bullets boss
+  // update bullets boss
   updateBossBullets(delta) {
     for (let i = 0; i < this.bossBullets.length; i++) {
       this.bossBullets[i].position.y += this.bossBullets[i].speed;
@@ -155,6 +117,7 @@ class Shoot2 {
     this.checkCollisionBulletBossWidthShip();
   }
 
+  // update bullets ship
   updateBullets(delta) {
     for (let i = 0; i < this.bullets.length; i++) {
       this.bullets[i].position.y -= this.bullets[i].speed;
@@ -168,7 +131,6 @@ class Shoot2 {
         this.bullets.splice(i, 1);
       }
     }
-    // this.checkCollision();
     this.checkCollisionBulletWidthBoss();
     this.checkCollisionBulletBossWidthBulletShip();
   }
