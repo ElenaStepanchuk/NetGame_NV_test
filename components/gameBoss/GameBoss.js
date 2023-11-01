@@ -31,7 +31,7 @@ class GameBoss {
     // spice ship
     this.ship = new Player({
       app: this.app,
-      spritePath: "../../images/spaceShip.png",
+      spritePath: "/images/spaceShip.png",
       width: 60,
       height: 140,
       y: 570,
@@ -41,7 +41,7 @@ class GameBoss {
     // boss ship
     this.boss = new Player({
       app: this.app,
-      spritePath: "../../images/spaceShipBoss.png",
+      spritePath: "/images/spaceShipBoss.png",
       width: 120,
       height: 180,
       y: 80,

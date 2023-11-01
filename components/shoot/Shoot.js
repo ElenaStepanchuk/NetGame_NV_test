@@ -43,7 +43,7 @@ class Shoot {
       y: 15,
     });
 
-    this.audioSpiceShip = new Audio("../../audio/spiceShipShoot.mp3");
+    this.audioSpiceShip = new Audio("/audio/spiceShipShoot.mp3");
 
     this.ValueTextShootedBullet.addText();
     this.ValueTextDeadAsteroid.addText();
