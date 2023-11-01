@@ -12,7 +12,9 @@ class Asteroid {
 
   addAsteroid() {
     for (let i = 0; i < 7; i++) {
-      this.asteroid = PIXI.Sprite.from("../../images/asteroid.png");
+      this.asteroid = PIXI.Sprite.from(
+        "https://elenastepanchuk.github.io/NetGame_NV_test/images/asteroid.png"
+      );
       this.asteroid.width = this.asteroiSize;
       this.asteroid.height = this.asteroiSize;
       this.arrayAsteroids.push(this.asteroid);
