@@ -27,6 +27,8 @@ class StartButton {
     this.startGame.buttonMode = true;
     this.startGame.x = this.widthCanvas / 2 - 80;
     this.startGame.y = this.heightCanvas / 2 - 20;
+    this.startGame.interactive = true;
+    this.startGame.buttonMode = true;
 
     this.styleText1 = new PIXI.TextStyle({
       fontFamily: "Monserrat",
@@ -34,21 +36,21 @@ class StartButton {
       fill: "yellow",
     });
     this.instructionStart = new PIXI.Text(
-      "To start the game, press the `s` key on your keyboard or click by right mouse button on button `START GAME`",
+      "To start the game, press the `s` key on your keyboard or click by mouse on the button `START GAME`",
       this.styleText1
     );
-    this.instructionStart.interactive = true;
-    this.instructionStart.buttonMode = true;
-    this.instructionStart.x = this.widthCanvas / 2 - 280;
+
+    this.instructionStart.x = this.widthCanvas / 2 - 540;
     this.instructionStart.y = this.heightCanvas / 2 + 80;
 
     this.clickButton = this.clickButton.bind(this);
     this.onClick = this.onClick.bind(this);
     window.addEventListener("keydown", this.clickButton);
     this.button.on("pointerdown", this.onClick);
+    this.startGame.on("pointerdown", this.onClick);
   }
   onClick() {
-    this.game.startBossGame();
+    this.game.startLevel1();
     this.app.stage.removeChild(this.button);
     this.app.stage.removeChild(this.startGame);
     this.app.stage.removeChild(this.instructionStart);

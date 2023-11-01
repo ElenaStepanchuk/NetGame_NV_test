@@ -8,7 +8,6 @@ class Asteroid {
     this.widthCanvas = 1280;
     this.heightCanvas = 720;
     this.shipSpriteHeight = 140;
-    this.app.ticker.add((delta) => this.gameLoop(delta));
   }
 
   addAsteroid() {
@@ -64,9 +63,6 @@ class Asteroid {
         return (this.arrayAsteroids[i].x = this.widthCanvas - 50);
       }
     }
-  }
-  gameLoop(delta) {
-    this.moveAsteroid(delta);
   }
 }
 
