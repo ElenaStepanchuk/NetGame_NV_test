@@ -10,7 +10,9 @@ class Keyboard2 {
     this.windowCount = 0;
 
     this.widthCanvas = 1280;
-    this.audioSpiceShip = new Audio("/audio/spiceShipShoot.mp3");
+    this.audioSpiceShip = new Audio(
+      "https://elenastepanchuk.github.io/NetGame_NV_test/audio/spiceShipShoot.mp3"
+    );
     this.targetShoot = null;
 
     this.shoot = new Shoot2({

@@ -27,7 +27,8 @@ class Level1 {
     // spice ship
     this.ship = new Player({
       app: this.app,
-      spritePath: "/images/spaceShip.png",
+      spritePath:
+        "https://elenastepanchuk.github.io/NetGame_NV_test/images/spaceShip.png",
       width: 60,
       height: 140,
       y: 570,
