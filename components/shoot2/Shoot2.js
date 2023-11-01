@@ -40,7 +40,7 @@ class Shoot2 {
     });
     this.deadedBossTextHp = new PIXI.Text(`HP BOSS:  `, this.styleText);
 
-    this.audioBoss = new Audio("../../audio/bossShoot.mp3");
+    this.audioBoss = new Audio("/audio/bossShoot.mp3");
 
     this.deadedBossTextHp.x = 850;
     this.deadedBossTextHp.y = 15;
