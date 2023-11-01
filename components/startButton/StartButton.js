@@ -5,7 +5,9 @@ class StartButton {
     this.app = app;
     this.game = game;
     this.button = new Graphics();
-    this.audioFonMusic = new Audio("/audio/fonMusic.mp3");
+    this.audioFonMusic = new Audio(
+      "https://elenastepanchuk.github.io/NetGame_NV_test/audio/fonMusic.mp3"
+    );
     this.widthCanvas = 1280;
     this.heightCanvas = 720;
     this.button.interactive = true;
